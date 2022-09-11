@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--  Start Bootstrap  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <!--  End Bootstrap  -->
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <h1>Danh sách đăng kí</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Date</th>
+            <th scope="col">Shift</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="internshipTimesheet : ${internshipTimesheets}">
+            <td scope="row" th:text="${internshipTimesheet.id}"></td>
+            <td th:text="${internshipTimesheet.internship.user.fullName}"></td>
+            <td th:text="${internshipTimesheet.workingDay}"></td>
+            <td th:text="${internshipTimesheet.time}"></td>
+            <td><a class="btn btn-primary" th:href="@{/internship/editInternshipTimesheet(id=${internshipTimesheet.id})}">Edit</a></td>
+            <td><a class="btn btn-primary" style="background-color: red"
+                   onclick="return confirm('Có muốn xóa trường này không?')"
+                   th:href="@{/internship/deleteInternshipTimesheet(id=${internshipTimesheet.id})}">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <h1>Đăng ký lịch làm</h1>
+    <form th:action="@{/internship/registerCalenderWork}" th:object="${internshipTimesheet}" method="post">
+        <div class="form-group">
+            <label for="work-day">Ngày làm việc</label>
+            <input th:field="*{workingDay}" type="date" required id="work-day" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="university">Chọn thực tập sinh</label>
+            <select th:field="*{internship}" class="form-control" name="" id="university">
+                <!--                <option value="0">Select option</option>-->
+                <option th:value="${internship.internshipId}"
+                        th:text="${internship.user.fullName}"></option>
+            </select>
+        </div>
+
+
+        <div class="form-group">
+            <label for="shift">Ca làm việc</label>
+            <select th:field="*{time}" name="" id="shift">
+                <option th:each="shift : ${T(com.example.quanlisinhvien.model.eenum.Time).values()}"
+                        th:value="${shift}"
+                        th:text="${shift}">
+                </option>
+            </select>
+        </div>
+
+        <button type="submit" id="button" cl    ass="btn btn-primary">Save</button>
+        <a class="btn btn-primary" href="/internship/homeInternship">Quay lại</a>
+    </form>
+</div>
+</body>
+</html>
