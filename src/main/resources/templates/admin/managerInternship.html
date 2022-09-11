@@ -15,22 +15,23 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
     <!--  End Bootstrap  -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <title>Title</title>
 </head>
 <body>
 <div class="container">
     <h3>Internship Management</h3>
-    <form action="" th:action="@{/admin/searchInternship}" method="get">
+<!--    <form action="" th:action="@{/admin/searchInternship}" method="get">-->
         <div class="input-group">
-            <input type="number" class="form-control" name="keyword" placeholder="Search by id">
+<!--            <input type="number" class="form-control" name="keyword" placeholder="Search by id">-->
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="submit">Search</button>
+<!--                <button class="btn btn-outline-secondary" type="submit">Search</button>-->
                 <a th:href="@{/admin/createInternship}" class="btn btn-outline-secondary" role="button">Create</a>
             </div>
         </div>
-    </form>
+<!--    </form>-->
 
-    <table class="table">
+    <table id="myTable" class="display">
         <thead>
         <tr>
             <th scope="col">ID</th>
@@ -40,7 +41,7 @@
             <th scope="col">PhoneNumber</th>
 <!--            <th scope="col">Role</th>-->
             <th scope="col">Birthday</th>
-            <th scope="col">UniversityId</th>
+            <th scope="col">UniversityId </th>
             <th scope="col">CompanyCardId</th>
             <th scope="col">Edit</th>
             <th scope="col">Delete</th>
@@ -69,5 +70,12 @@
     </table>
     <a class="btn btn-primary" href="/admin">Quay lại</a>
 </div>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+</script>
 </body>
 </html>

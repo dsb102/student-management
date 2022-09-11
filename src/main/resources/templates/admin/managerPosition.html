@@ -14,71 +14,92 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
+<!--    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">-->
     <!--  End Bootstrap  -->
     <title>Title</title>
 </head>
 <body>
 <div class="container">
     <h3>Position Management</h3>
-    <form action="" th:action="@{/admin/searchPosition}" method="get">
+    <form id="form" action="" th:action="@{/admin/searchPosition}" method="get">
         <div class="input-group">
-            <input type="text" class="form-control" name="keyword" placeholder="Search by name">
+            <input type="text" th:value="${keyword} ? ${keyword} : ''" class="form-control" name="keyword" placeholder="Search by name">
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="submit">Search</button>
                 <a th:href="@{/admin/createPosition}" class="btn btn-outline-secondary" role="button">Create</a>
             </div>
         </div>
-    </form>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">IsDelFlg</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Delete</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="position : ${positions.content}">
-            <td scope="row" th:text="${position.id}"></td>
-            <td th:text="${position.name}"></td>
-            <td th:text="${position.isDelFlg}"></td>
-            <td><a class="btn btn-primary" th:href="@{/admin/editPosition(id=${position.id})}">Edit</a></td>
-            <td><a class="btn btn-primary" style="background-color: red"
-                   onclick="return confirm('Có muốn xóa trường này không?')"
-                   th:href="@{/admin/deletePosition(id=${position.id})}">Delete</a></td>
-        </tr>
-        </tbody>
-    </table>
+
+        <table id="myTable" class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID
+                    <input onchange="return subCheckbox()" name="checkId" th:checked="${checkId}" type="checkbox">
+                </th>
+                <th scope="col">Name
+                    <input onchange="return subCheckbox()" name="checkName" th:checked="${checkName}" type="checkbox">
+                </th>
+<!--                <th scope="col">IsDelFlg</th>-->
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="position : ${positions.content}">
+                <td scope="row" th:text="${position.id}"></td>
+                <td th:text="${position.name}"></td>
+    <!--            <td th:text="${position.isDelFlg}"></td>-->
+                <td><a class="btn btn-primary" th:href="@{/admin/editPosition(id=${position.id})}">Edit</a></td>
+                <td><a class="btn btn-primary" style="background-color: red"
+                       onclick="return confirm('Có muốn xóa trường này không?')"
+                       th:href="@{/admin/deletePosition(id=${position.id})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
     <nav aria-label="Page navigation example">
         <ul class="pagination">
+<!--            <li class="page-item">-->
+<!--                <a th:if="${positions.number != 0}" class="page-link" th:href="@{/admin/searchPosition/(page=0, keyword=${keyword})}" aria-label="Previous">-->
+<!--                    First-->
+<!--                </a>-->
+<!--            </li>-->
             <li class="page-item">
-                <a class="page-link" th:href="@{/admin/searchPosition/(page=0, keyword=${keyword})}" aria-label="Previous">
-                    First
-                </a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" th:href="@{/admin/searchPosition/(page=${positions.number} - 1, keyword=${keyword})    }">
+                <a th:active="false" th:if="${positions.number != 0}" class="page-link" th:href="@{/admin/searchPosition/(page=${positions.number} - 1, keyword=${keyword}, checkId=${checkId} ? 'on' : 'false', checkName=${checkName} ? 'on' : 'false')}">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">Previous</span>
                 </a>
             </li>
+            <input name="page" th:value="${page}" type="number" > of <span th:utext="${positions.totalPages}">  </span>
             <li class="page-item">
-                <a class="page-link" th:href="@{/admin/searchPosition/(page=${positions.number} + 1, keyword=${keyword})}">
+                <a th:if="${positions.number != positions.totalPages - 1}" class="page-link" th:href="@{/admin/searchPosition/(page=${positions.number} + 1, keyword=${keyword}, checkId=${checkId} ? 'on' : 'false', checkName=${checkName} ? 'on' : 'false')}">
                     <span aria-hidden="true">&raquo;</span>
                     <span class="sr-only">Next</span>
                 </a>
             </li>
-            <li class="page-item">
-                <a class="page-link" th:href="@{/admin/searchPosition/(page=${positions.totalPages} - 1, keyword=${keyword})}" aria-label="Next">
-                    Last
-                </a>
-            </li>
+<!--            <li class="page-item">-->
+<!--                <a th:if="${positions.number != positions.totalPages - 1}" class="page-link" th:href="@{/admin/searchPosition/(page=${positions.totalPages} - 1, keyword=${keyword})}" aria-label="Next">-->
+<!--                    Last-->
+<!--                </a>-->
+<!--            </li>-->
         </ul>
     </nav>
+
+    </form>
     <a class="btn btn-primary" href="/admin">Quay lại</a>
 </div>
+<!--<script src="https://code.jquery.com/jquery-3.5.1.js"></script>-->
+<!--<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>-->
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        $('#myTable').DataTable();-->
+<!--    });-->
+<!--</script>-->
+<script>
+    function subCheckbox() {
+        $("#form").submit();
+    }
+</script>
 </body>
+
 </html>

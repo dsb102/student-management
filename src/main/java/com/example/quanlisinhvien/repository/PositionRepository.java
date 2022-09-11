@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface PositionRepository extends JpaRepository<Position, Long> {
-    Page<Position> findPositionsByNameStartingWith(Pageable pageable, String keyword);
+    Page<Position> findPositionsByNameStartingWithAndIsDelFlgFalse(Pageable pageable, String keyword);
 
     List<Position> findAllByIsDelFlgFalse();
 

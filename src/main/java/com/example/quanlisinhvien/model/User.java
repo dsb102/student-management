@@ -31,7 +31,6 @@ public class User {
     @PrimaryKeyJoinColumn
     private Mentor mentor;
 
-//    @Column(unique = true)
     protected String username;
 
     protected String password;

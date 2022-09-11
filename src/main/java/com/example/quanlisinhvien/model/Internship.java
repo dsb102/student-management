@@ -28,7 +28,6 @@ public class Internship{
     @OneToOne
     @MapsId
     @JoinColumn(name = "user_id")
-//    @JsonManagedReference
     @JsonBackReference
     private User user;
 

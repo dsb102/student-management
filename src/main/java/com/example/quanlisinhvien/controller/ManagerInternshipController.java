@@ -44,16 +44,16 @@ public class ManagerInternshipController {
                                     @RequestParam(name = "page", required = false, defaultValue = PAGE) String page,
                                     @RequestParam(name = "size", required = false, defaultValue = SIZE) String size,
                                     @RequestParam(name = "sort", required = false, defaultValue = SORT) String sort) {
+        List<InternshipDTO> internshipDTOList;
         if (keyword == null || keyword.equals("")) {
-            List<InternshipDTO> internshipDTOList = internshipService.getAllDTO();
-            model.addAttribute("internships", internshipDTOList);
+            internshipDTOList = internshipService.getAllDTO();
         } else {
-            List<InternshipDTO> internshipDTOList = new ArrayList<>();
+            internshipDTOList = new ArrayList<>();
             InternshipDTO internshipDTO = internshipService.getInternshipDTOById(Long.parseLong(keyword));
             if (internshipDTO == null) return "404";
             internshipDTOList.add(internshipDTO);
-            model.addAttribute("internships", internshipDTOList);
         }
+        model.addAttribute("internships", internshipDTOList);
         return "admin/managerInternship";
     }
 

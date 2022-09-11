@@ -27,9 +27,6 @@ public class MentorInternship {
     @JoinColumn(name = "internship_id")
     private Internship internship;
 
-
-//    @OneToOne
-//    @JoinColumn(name = "position_id", referencedColumnName = "id")
     @Column(name = "position_id")
     private Long positionId;
 

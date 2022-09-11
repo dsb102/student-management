@@ -21,10 +21,4 @@ public class Common {
         }
         return PageRequest.of(page, size, sortable);
     }
-
-    public static User getUserCurrentLogin() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return new UserService().findUserByUsername(userDetails.getUsername());
-    }
 }

@@ -60,7 +60,7 @@ public class PositionService implements IPositionService {
     @Override
     public Page<Position> findByName(Integer page, Integer size, String sort, String keyword) {
         Pageable pageable = Common.getPageable(page, size, sort);
-        return positionRepository.findPositionsByNameStartingWith(pageable, keyword);
+        return positionRepository.findPositionsByNameStartingWithAndIsDelFlgFalse(pageable, keyword);
     }
 
     @Override

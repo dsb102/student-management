@@ -27,13 +27,13 @@ import java.util.List;
 @Service
 @Slf4j
 public class UserService implements IUserService, UserDetailsService {
+
     @Autowired
     private UserRepository userRepository;
 
     @Override
     public User findById(Long id) {
         return userRepository.findUserByUserId(id);
-
     }
 
     @Override

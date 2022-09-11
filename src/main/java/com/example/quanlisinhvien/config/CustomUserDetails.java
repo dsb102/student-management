@@ -1,7 +1,6 @@
 package com.example.quanlisinhvien.config;
 
 import com.example.quanlisinhvien.model.User;
-import com.example.quanlisinhvien.model.eenum.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +13,6 @@ public class CustomUserDetails implements UserDetails {
     public CustomUserDetails(User user) {
         this.user = user;
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
